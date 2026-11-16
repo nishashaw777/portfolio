@@ -169,19 +169,20 @@ main{padding-top:63px}
 .poster::before{content:"";position:absolute;width:150%;aspect-ratio:1;left:-25%;top:-45%;border-radius:50%;background:radial-gradient(circle at 40% 40%,rgba(255,255,255,.25),transparent 60%)}
 .a1{--art:repeating-radial-gradient(circle at 75% 28%,transparent 0 14px,rgba(255,255,255,.2) 15px 16px)}
 .ep1{--art:url("img/ep1-card.jpg") center/cover no-repeat}
-.pimg.ep1{--art:url("img/ep1-hover.jpg") center/cover no-repeat}
+.pimg.ep1{--art:url("img/ep1-wide.jpg") center/cover no-repeat}
 .ep2{--art:url("img/ep2-card.jpg") center/cover no-repeat}
-.pimg.ep2{--art:url("img/ep2-hover.jpg") center/cover no-repeat}
+.pimg.ep2{--art:url("img/ep2-wide.jpg") center/cover no-repeat}
 .ep3{--art:url("img/ep3-card.jpg") center/cover no-repeat}
-.pimg.ep3{--art:url("img/ep3-hover.jpg") center/cover no-repeat}
+.pimg.ep3{--art:url("img/ep3-wide.jpg") center/cover no-repeat}
 .ep4{--art:url("img/ep4-card.jpg") center/cover no-repeat}
-.pimg.ep4{--art:url("img/ep4-hover.jpg") center/cover no-repeat}
+.pimg.ep4{--art:url("img/ep4-wide.jpg") center/cover no-repeat}
 .ep5{--art:url("img/ep5-card.jpg") center/cover no-repeat}
-.pimg.ep5{--art:url("img/ep5-hover.jpg") center/cover no-repeat}
+.pimg.ep5{--art:url("img/ep5-wide.jpg") center/cover no-repeat}
 .ep6{--art:url("img/ep6-card.jpg") center/cover no-repeat}
-.pimg.ep6{--art:url("img/ep6-hover.jpg") center/cover no-repeat}
+.pimg.ep6{--art:url("img/ep6-wide.jpg") center/cover no-repeat}
 .ep7{--art:url("img/ep7-card.jpg") center/cover no-repeat}
-.pimg.ep7{--art:url("img/ep7-hover.jpg") center/cover no-repeat}
+.pimg.ep7{--art:url("img/ep7-wide.jpg") center/cover no-repeat}.eg .ep1{--art:url("img/ep1-wide.jpg") center/cover no-repeat}.eg .ep2{--art:url("img/ep2-wide.jpg") center/cover no-repeat}.eg .ep3{--art:url("img/ep3-wide.jpg") center/cover no-repeat}.eg .ep4{--art:url("img/ep4-wide.jpg") center/cover no-repeat}.eg .ep5{--art:url("img/ep5-wide.jpg") center/cover no-repeat}.eg .ep6{--art:url("img/ep6-wide.jpg") center/cover no-repeat}.eg .ep7{--art:url("img/ep7-wide.jpg") center/cover no-repeat}
+.pimg[class*=" ep"]::after{display:none}
 .a2{--art:repeating-linear-gradient(90deg,transparent 0 24px,rgba(255,255,255,.14) 24px 25px),repeating-linear-gradient(0deg,transparent 0 24px,rgba(255,255,255,.14) 24px 25px)}
 .a3{--art:radial-gradient(rgba(255,255,255,.45) 2px,transparent 3px) 0 0/20px 20px}
 .soon{--a:#2a2a2a;--b:#171717}
@@ -245,7 +246,19 @@ main{padding-top:63px}
 .vn{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;margin-top:36px}
 .vn .btn{height:52px;font-size:18px;padding:0 26px}
 .eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(380px,100%),1fr));gap:44px 16px}
-.eg .card.wide{width:auto;height:auto;aspect-ratio:16/9}
+.eg .card.wide{width:auto;height:auto;aspect-ratio:auto}
+.eg .poster{position:relative;inset:auto;aspect-ratio:16/9;height:auto;border-radius:8px}
+.ecap{padding:12px 4px 0}
+.ecap p{margin:0;font-size:15px;line-height:1.45;color:#c8c8c8}
+.sintro{margin-top:28px}
+.sh{margin:6px 0 10px;font:900 clamp(28px,4vw,44px)/1.05 Inter,sans-serif;letter-spacing:-.03em;text-transform:uppercase}
+.coming{padding-top:120px;text-align:center}
+.coming .vd{margin:0 auto}
+.coming .btns{justify-content:center}
+.eg .poster::before,.pimg.vb::before{display:none}
+.pimg.vb{background-position:center 80%;height:auto;aspect-ratio:16/9;max-height:min(78vh,760px)}
+.pimg.vb::after{display:none}
+.herobtns{margin:22px var(--pad) 0}
 .ek{position:absolute;z-index:1;left:16px;top:14px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.85)}
 .wide .pt small{margin-top:6px;font-size:14px}
 .vc.vw{max-width:none}
@@ -1219,6 +1232,10 @@ const cv=$("#introC"),g=cv.getContext("2d"),tx=$("#introI");
 const fx=$("#fxV"),fxC=$("#fxC"),fxX=fxC.getContext("2d"),bgI=$(".intro-art"),logoBox=$(".logo-wrap");
 const baseI=new Image();let posterOn=false,posterT=0,startT=0,drawing=false;const POSTER_HOLD=5;
 const fallback=()=>tx.classList.add('nofx');
+const snd=new Audio("audio/night-galaxy.wav");snd.preload="auto";snd.volume=0.7;let sndFaded=false;
+const startSnd=()=>{snd.play().catch(()=>{});document.removeEventListener("pointerdown",startSnd)};
+document.addEventListener("pointerdown",startSnd);
+const fadeSnd=()=>{if(sndFaded)return;sndFaded=true;document.removeEventListener("pointerdown",startSnd);const v0=snd.volume;let k=0;const iv=setInterval(()=>{k++;snd.volume=Math.max(0,v0*(1-k/15));if(k>=15){clearInterval(iv);snd.pause()}},100)};
 baseI.onerror=fallback;baseI.src="video/nishas-logo-base.jpg";
 const offC=document.createElement("canvas");offC.width=1920;offC.height=1080;const offX=offC.getContext("2d");
 const edgeFade=offX.createLinearGradient(0,0,1920,0);edgeFade.addColorStop(0,"rgba(0,0,0,0)");edgeFade.addColorStop(.16,"#000");edgeFade.addColorStop(.84,"#000");edgeFade.addColorStop(1,"rgba(0,0,0,0)");
@@ -1238,7 +1255,7 @@ const drawFx=()=>{
   fxX.globalAlpha=1;fxX.globalCompositeOperation="source-over";
   if(drawing&&el<8&&!fx.ended)requestAnimationFrame(drawFx);
 };
-const showPoster=()=>{if(posterOn)return;posterOn=true;posterT=(performance.now()-t0)/1000;startT=performance.now();drawing=true;tx.classList.add('on');drawFx();fx.play().catch(()=>{})};
+const showPoster=()=>{if(posterOn)return;posterOn=true;fadeSnd();posterT=(performance.now()-t0)/1000;startT=performance.now();drawing=true;tx.classList.add('on');drawFx();fx.play().catch(()=>{})};
 addEventListener('resize',()=>{if(posterOn&&!drawing)drawFx()});
 const C=['#4285F4','#EA4335','#FBBC05','#34A853'];
 const TOTAL=30;let W=1,H=1,D=1,raf=0,fin=false,shown=false,last=0;
@@ -1248,7 +1265,7 @@ const size=()=>{D=Math.min(devicePixelRatio||1,2);W=cv.clientWidth||innerWidth;H
 size();addEventListener('resize',size);
 const ease=x=>x<=0?0:x>=1?1:x*x*(3-2*x);
 const speedAt=t=>t<4?0.002+0.010*Math.pow(t/4,2):t<5.5?0.0008+0.0112*(1-ease((t-4)/1.5)):0.0008;
-const finish=()=>{if(fin)return;fin=true;cancelAnimationFrame(raf);el.classList.add('out');setTimeout(()=>el.remove(),1000)};
+const finish=()=>{if(fin)return;fin=true;fadeSnd();cancelAnimationFrame(raf);el.classList.add('out');setTimeout(()=>el.remove(),1000)};
 const draw=(t,dt)=>{const v=speedAt(t)*dt*60;g.clearRect(0,0,W,H);const m=Math.min(W,H),cx=W/2,cy=H/2,f=m*0.55;
 [[0.2,0.3,C[0]],[0.8,0.7,C[1]],[0.72,0.2,C[2]],[0.25,0.8,C[3]]].forEach(([x,y,c],i)=>{const r=m*(0.6+0.1*Math.sin(t*0.4+i));const gr=g.createRadialGradient(W*x,H*y,0,W*x,H*y,r);gr.addColorStop(0,c+'2e');gr.addColorStop(1,c+'00');g.fillStyle=gr;g.fillRect(0,0,W,H)});
 for(const s of S){s.z-=v;if(s.z<=0.02){place(s);s.z=1}
@@ -1299,7 +1316,7 @@ const X=[
 ["Resume","#115e59","#04201e",["Experience","Education"],"15%"],
 ["Contact","#86198f","#2a0a30",["Email","LinkedIn"],"80%"]
 ];
-$("#r2").innerHTML='<div class="rail">'+X.map(x=>`<a class="card wide" href="#contact" style="--a:${x[1]};--b:${x[2]};--w:${x[4]}"><div class="poster"><div class="pt">${x[0]==="About me"?"Stryker":/^(Skills|Resume)/.test(x[0])?"Coming soon":x[0]}</div></div><div class="pg"></div>${info(x[0]==="About me"?"Stryker":"Portfolio",x[0],/^(About me|Skills|Resume)/.test(x[0])?[...x[3],"Details are not available"]:x[3])}</a>`).join("")+'</div>';
+$("#r2").innerHTML='<div class="rail">'+X.map(x=>`<a class="card wide" href="${x[0]==="Contact"?"#contact":"#coming-soon"}" style="--a:${x[1]};--b:${x[2]};--w:${x[4]}"><div class="poster"><div class="pt">${x[0]==="About me"?"Stryker":/^(Skills|Resume)/.test(x[0])?"Coming soon":x[0]}</div></div><div class="pg"></div>${info(x[0]==="About me"?"Stryker":"Portfolio",x[0],/^(About me|Skills|Resume)/.test(x[0])?[...x[3],"Details are not available"]:x[3])}</a>`).join("")+'</div>';
 
 document.querySelectorAll(".wrap").forEach(w=>{
   const r=w.querySelector(".rail");
@@ -1354,16 +1371,18 @@ const runPageCode=(code,wrap,dom)=>{window.__pfRun={wrap,dom};const s=document.c
 const jumpRow=wrap=>{const m=wrap.querySelector("#menu"),main=wrap.querySelector("main");if(!m||!main)return;m.removeAttribute("hidden");m.classList.add("pf-jump");main.prepend(m)};
 const mountPage=(k,host)=>{if(host.__pf)return;host.__pf=true;try{const src=window.__PAGES&&window.__PAGES[k];if(src==null)throw new Error("Missing page "+k);const doc=new DOMParser().parseFromString(src,"text/html");doc.querySelectorAll('link[rel="stylesheet"]').forEach(l=>{hoistLink(l.getAttribute("href"));l.remove()});let css="";doc.querySelectorAll("style").forEach(st=>{css+=st.textContent+"\n";st.remove()});doc.querySelectorAll(".pfx-bar").forEach(n=>n.remove());const codes=[];doc.querySelectorAll("script").forEach(sc=>{if(!/pf_goto|pfx-/.test(sc.textContent))codes.push(sc.textContent);sc.remove()});addFontFaces(css);const cv=k==="cv",ep6=k==="ep6";const shadow=host.attachShadow({mode:"open"});const wrap=document.createElement("div");wrap.className="pf-ep";shadow.innerHTML="<style>:host{display:block}"+scopeCss(css,cv,ep6)+(cv?CV_EXTRA:"")+"</style>";wrap.innerHTML=doc.body.innerHTML;shadow.appendChild(wrap);shadow.addEventListener("click",pageClick,true);const dom=shimDoc(shadow,wrap);runPageCode(codes.join("\n;\n"),wrap,dom);}catch(err){host.textContent="This page could not be loaded.";console.error(err)}};
 const hydrate=root=>root.querySelectorAll(".ep-slot").forEach(sl=>{const k=sl.dataset.page;let h=PAGE_HOSTS[k];if(!h){h=document.createElement("div");h.className="ep-host";PAGE_HOSTS[k]=h}sl.replaceWith(h);mountPage(k,h)});
-const efb_=n=>`<div class="efbar"><span class="efk">Episode 0${n} of 07 · ${EP[n-1][0]}</span><div class="efb">${n>1?btn(`#episode-${n-1}`,"mo","← Previous Episode"):""}${btn("#series","mo","All Episodes")}${n<7?btn(`#episode-${n+1}`,"pl","Next Episode →"):btn("#top","pl","Back to Portfolio")}</div></div>`;
+const STG=["Empathize","Discover","Define","Ideate","Design","Prototype","Test"];
+const efb_=n=>`<div class="efbar"><span class="efk">Episode 0${n} of 07 · ${EP[n-1][0]} (${STG[n-1]})</span><div class="efb">${n>1?btn(`#episode-${n-1}`,"mo","← Previous Episode"):""}${btn("#series","mo","All Episodes")}${n<7?btn(`#episode-${n+1}`,"pl","Next Episode →"):btn("#top","pl","Back to Portfolio")}</div></div>`;
 const efbShow=v=>{const b=v.querySelector(".efbar");if(!b)return;if(!("IntersectionObserver"in window)||matchMedia("(prefers-reduced-motion:reduce)").matches)b.classList.add("in");else{const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}}),{threshold:.3});io.observe(b)}};
 const route=()=>{
 const h=getHash().slice(1),m=h.match(/^episode-([1-7])$/);
 if(h==="about"||h==="contact"){mn.hidden=true;view.hidden=false;view.innerHTML=`<div class="cvw"><div class="ep-slot" data-page="cv"></div></div>`;hydrate(view);const ct=h==="contact"&&PAGE_HOSTS.cv&&PAGE_HOSTS.cv.shadowRoot&&PAGE_HOSTS.cv.shadowRoot.getElementById("contact");if(ct){scrollTo({top:ct.getBoundingClientRect().top+scrollY-80,behavior:"instant"})}else scrollTo({top:0,behavior:"instant"});return}
 if(h==="episode-6-demo"){mn.hidden=true;view.hidden=false;view.innerHTML=`<div class="ef ef6"><div class="ep-slot" data-page="ep6"></div>${efb_(6)}</div>`;hydrate(view);efbShow(view);scrollTo({top:0,behavior:"instant"});return}
+if(h==="coming-soon"){mn.hidden=true;view.hidden=false;view.innerHTML=`<div class="vc vw coming"><p class="vk">Coming soon</p><h1 class="sh">This page is not ready yet</h1><p class="vd">Please check back soon.</p><div class="btns">${btn("#top","mo","Back to Portfolio")}</div></div>`;scrollTo({top:0,behavior:"instant"});return}
 if(!m&&h!=="series"){view.hidden=true;view.innerHTML="";mn.hidden=false;const t=h&&document.getElementById(h);t?t.scrollIntoView():scrollTo({top:0,behavior:"instant"});return}
 mn.hidden=true;view.hidden=false;
 if(m){view.innerHTML=efr(+m[1]);hydrate(view);efbShow(view);scrollTo({top:0,behavior:"instant"});return}
-view.innerHTML=ban(EP[0],"Well-Being Design Series","WELL-BEING","7 Episodes","A design series about my Well-Being project. Follow it from the start, or jump straight to any episode.",`<div class="btns" style="margin-top:22px">${btn("#episode-1","pl",I.play+"Start Episode 01")}${btn("#top","mo","Back to Portfolio")}</div>`)+`<div class="vc vw"><h2>Episodes</h2><div class="eg">${EP.map((e,i)=>`<a class="card wide" href="#episode-${i+1}" style="--a:${e[2]};--b:${e[3]}"><div class="poster ${e[1]}"><span class="ek">Episode 0${i+1}</span><div class="pt">${e[0]}<small>${e[4]}</small></div></div>${info("Episode 0"+(i+1),e[4],["Well-Being","Well-Being Design Series"])}</a>`).join("")}</div></div>`;
+view.innerHTML=`<div class="pimg vb ep1" style="--a:${EP[0][2]};--b:${EP[0][3]}"></div><div class="btns herobtns">${btn("#episode-1","pl",I.play+"Start Episode 01")}${btn("#top","mo","Back to Portfolio")}</div><div class="vc vw sintro"><p class="vk">7 Episodes</p><h1 class="sh">Well-Being Design Series</h1><p class="vd">A design series about my Well-Being project. Follow it from the start, or jump straight to any episode.</p></div><div class="vc vw"><h2>Episodes</h2><div class="eg">${EP.map((e,i)=>`<a class="card wide" href="#episode-${i+1}" style="--a:${e[2]};--b:${e[3]}"><div class="poster ${e[1]}"></div><div class="ecap"><p>${e[4]}</p></div></a>`).join("")}</div></div>`;
 scrollTo({top:0,behavior:"instant"})};
 addEventListener("hashchange",route);route();
 const nav=$("#nav");
